@@ -400,13 +400,31 @@
         }
 
         // --- SMS Function ---
-        function sendSMS(id) {
-            const c = clients.find(x => x.id == id);
-            if (!c || !c.mobile) return showToast("মোবাইল নম্বর নেই!", "danger");
-            const msg = `Apnar dolil (No: ${c.dalil || 'N/A'}) ready hoyeche. Bokeya ${c.due} Tk niye office e jogajog korun. - Md. Moinul Hasan`;
-            const smsUrl = `sms:${c.mobile}?body=${encodeURIComponent(msg)}`;
-            window.location.href = smsUrl;
-        }
+       function sendSMS(id) {
+    const c = clients.find(x => x.id == id);
+    if (!c || !c.mobile) {
+        showToast("মোবাইল নম্বর নেই!", "danger");
+        return;
+    }
+
+    // ডাইনামিক নাম ব্যবহার করা হয়েছে (আপনার প্রোফাইল থেকে নাম নেবে)
+    const senderName = document.getElementById("pName").innerText || "Md. Moinul Hasan";
+    const msg = `Apnar dolil (No: ${c.dalil || 'N/A'}) ready hoyeche. Bokeya ${c.due} Tk niye office e jogajog korun. - ${senderName}`;
+
+    // ডিভাইস ডিটেকশন (iPhone এর জন্য ';' এবং Android এর জন্য '?')
+    const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const separator = isIos ? ';' : '?';
+
+    const smsUrl = `sms:${c.mobile}${separator}body=${encodeURIComponent(msg)}`;
+
+    // সরাসরি window.location.href এর বদলে একটি ইনভিজিবল লিংক তৈরি করে ক্লিক করা হচ্ছে (এটি বেশি নির্ভরযোগ্য)
+    const link = document.createElement('a');
+    link.href = smsUrl;
+    link.target = '_blank'; // কিছু ব্রাউজারের সিকিউরিটির জন্য প্রয়োজন
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
 
         // --- UI Helpers ---
         function toggleSidebar() { document.getElementById("sidebar").classList.toggle("active"); document.getElementById("overlay").style.display = document.getElementById("sidebar").classList.contains("active") ? "block" : "none"; }
