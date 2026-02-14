@@ -1,925 +1,616 @@
-<!-- START OF FILE: Smart Nokol Nobish Pro v3.5 (Upgraded) -->
 <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>স্মার্ট নকল নবীশ প্রো ৩.৫</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Nokol Nobish Pro v13.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
+        /* --- PREMIUM DARK THEME --- */
         :root {
-            --primary: #00695c;
-            --bg: #f0f2f5;
-            --white: #ffffff;
-            --text: #333;
-            --danger: #d32f2f;
-            --success: #2e7d32;
-            --warning: #f9a825;
-            --info: #1976d2;
-            --office: #6a1b9a;
-        }
-        * { box-sizing: border-box; outline: none; }
-        body {
-            font-family: 'SolaimanLipi', sans-serif;
-            margin: 0; background-color: var(--bg); color: var(--text);
-            -webkit-tap-highlight-color: transparent;
+            --primary: #4f46e5;
+            --primary-dark: #3730a3;
+            --accent: #06b6d4;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #172554 100%);
+            --sidebar-bg: rgba(15, 23, 42, 0.98);
+            --text-main: #f8fafc;
+            --text-light: #94a3b8;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --office: #8b5cf6;
+            --font-main: 'Hind Siliguri', sans-serif;
         }
 
-        /* --- লগইন স্ক্রিন --- */
-        #loginScreen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--primary); z-index: 9999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; color: white;
-            transition: background-color 0.3s;
-        }
-        .login-box {
-            background: white; padding: 25px; border-radius: 15px; text-align: center; width: 85%; max-width: 300px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        .login-box input {
-            width: 100%; padding: 12px; margin: 15px 0; font-size: 22px; text-align: center;
-            border: 2px solid #ddd; border-radius: 8px; letter-spacing: 5px; color: #333;
-        }
-        .login-btn {
-            background: #ff6f00; color: white; border: none; padding: 12px; width: 100%;
-            border-radius: 8px; font-size: 18px; cursor: pointer; font-weight: bold;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+        body { font-family: var(--font-main); background: var(--bg-gradient); color: var(--text-main); min-height: 100vh; background-attachment: fixed; overflow-x: hidden; }
 
-        /* --- মেইন অ্যাপ --- */
-        #mainApp { display: none; }
+        /* --- TOAST --- */
+        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; }
+        .toast { min-width: 280px; margin-bottom: 12px; background: #1e293b; color: #fff; padding: 15px 20px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: space-between; animation: slideIn 0.3s ease-out forwards; border-left: 6px solid var(--primary); }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-        /* হেডার */
-        .header {
-            background-color: var(--primary); color: var(--white); padding: 15px 10px;
-            display: flex; align-items: center; justify-content: space-between;
-            position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            transition: background-color 0.3s;
-        }
-        .menu-btn { font-size: 22px; cursor: pointer; padding: 5px; width: 40px; }
-        
-        .header-center {
-            text-align: center; flex-grow: 1;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
-        .office-name { font-size: 16px; font-weight: bold; line-height: 1.2; margin-bottom: 2px; }
-        .location { font-size: 11px; opacity: 0.9; margin-bottom: 5px; }
-        
-        .connection-dot {
-            width: 10px; height: 10px; background-color: #ccc; border-radius: 50%;
-            display: inline-block; margin-left: 5px; border: 2px solid white;
-        }
-        .connection-dot.online { background-color: #00e676; }
-        .connection-dot.offline { background-color: #ff1744; }
+        /* --- LOGIN SCREEN --- */
+        #loginScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #111827 0%, #1e1b4b 100%); display: flex; align-items: center; justify-content: center; z-index: 9000; }
+        .login-card { background: #1f2937; width: 90%; max-width: 360px; padding: 35px 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; border: 1px solid #374151; }
+        .login-card h2 { font-size: 26px; color: var(--primary); margin-bottom: 5px; }
+        .login-input { width: 100%; padding: 12px 15px; border: 1px solid #4b5563; border-radius: 10px; font-size: 14px; background: #374151; color: #fff; margin-bottom: 15px; }
+        .login-btn { width: 100%; padding: 12px; background: var(--success); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        .reset-link { font-size: 12px; color: var(--accent); cursor: pointer; margin-top: 15px; display: block; text-decoration: underline; }
 
-        /* সাইডবার */
-        .sidebar {
-            height: 100%; width: 260px; position: fixed; top: 0; left: -260px;
-            background-color: var(--white); box-shadow: 2px 0 10px rgba(0,0,0,0.2);
-            transition: 0.3s; z-index: 2000; overflow-y: auto;
-        }
-        .sidebar.active { left: 0; }
-        .sidebar-header { background: var(--primary); color: white; padding: 20px; text-align: center; transition: background-color 0.3s; }
-        .sidebar a {
-            padding: 15px 20px; text-decoration: none; font-size: 15px; color: var(--text);
-            display: flex; align-items: center; border-bottom: 1px solid #f0f0f0; cursor: pointer;
-        }
-        .sidebar a i { margin-right: 15px; width: 20px; text-align: center; color: var(--primary); }
-        
-        .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); display: none; z-index: 1500;
-        }
-        .overlay.active { display: block; }
+        /* --- HEADER --- */
+        header { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); padding: 0 20px; height: 70px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; width: 100%; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .menu-btn { font-size: 24px; color: #fff; cursor: pointer; padding: 10px; }
+        .headline { text-align: center; flex-grow: 1; }
+        .office-name { font-size: 16px; font-weight: 700; color: #fff; display: block; }
+        .user-status { font-size: 11px; color: var(--text-light); display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; }
+        .status-dot.online { background: var(--success); box-shadow: 0 0 8px var(--success); }
 
-        /* কন্টেইনার */
-        .container { padding: 12px; padding-bottom: 90px; }
+        /* --- SIDEBAR --- */
+        #sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: var(--sidebar-bg); border-right: 1px solid rgba(255,255,255,0.1); z-index: 2000; display: flex; flex-direction: column; transition: 0.3s ease; }
+        #sidebar.active { left: 0; }
+        .sidebar-header { padding: 25px 20px; background: linear-gradient(to right, var(--primary), var(--accent)); color: #fff; text-align: center; }
+        #sidebar a { display: block; color: #94a3b8; text-decoration: none; padding: 12px 25px; cursor: pointer; transition: 0.3s; border-left: 4px solid transparent; font-size: 14px; }
+        #sidebar a i { margin-right: 10px; width: 20px; }
+        #sidebar a:hover, #sidebar a.active { background: rgba(255,255,255,0.05); color: #fff; border-left-color: var(--accent); }
+        .sidebar-footer { margin-top: auto; padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 11px; color: var(--text-light); text-align: center; }
+        .dev-credit { color: var(--accent); font-weight: bold; margin-top: 5px; display: block; font-size: 13px; }
 
-        /* ড্যাশবোর্ড কার্ডস */
-        .stats-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;
-        }
-        .stat-card {
-            background: var(--white); padding: 15px; border-radius: 10px;
-            text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; position: relative;
-        }
-        .stat-number { font-size: 20px; font-weight: bold; color: var(--primary); }
-        .stat-label { font-size: 11px; color: #666; margin-top: 5px; }
-        .office-card { border-bottom: 4px solid var(--office); }
-        
-        /* ক্লায়েন্ট কার্ড */
-        .client-card {
-            background: var(--white); border-radius: 10px; padding: 12px; margin-bottom: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 5px solid #ddd; position: relative;
-        }
-        .client-card.status-Pending { border-left-color: #757575; }
-        .client-card.status-Processing { border-left-color: var(--warning); }
-        .client-card.status-Ready { border-left-color: var(--success); }
-        .client-card.status-Delivered { border-left-color: var(--primary); opacity: 0.6; }
-        
-        .client-header { display: flex; justify-content: space-between; margin-bottom: 5px; }
-        .client-name { font-weight: bold; font-size: 16px; }
-        .dalil-no { background: #e0f2f1; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: var(--primary); font-weight: bold; }
+        /* --- PROFILE BUTTON --- */
+        #profileBtn { background: var(--primary); color: #fff; padding: 6px 12px; border-radius: 30px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 12px; }
+        #profileMenu { position: absolute; top: 65px; right: 20px; width: 200px; background: #1f2937; border-radius: 12px; display: none; box-shadow: 0 15px 40px rgba(0,0,0,0.5); border: 1px solid #374151; overflow: hidden; z-index: 2000; }
+        .p-item { padding: 12px 20px; border-bottom: 1px solid #374151; cursor: pointer; color: #e2e8f0; font-size: 14px; }
+        .p-item:hover { background: #374151; color: var(--accent); }
 
-        .payment-info { 
-            display: flex; justify-content: space-between; margin-top: 8px; font-size: 13px; 
-            background: #f1f8e9; padding: 8px; border-radius: 6px; font-weight: bold;
-        }
-        
-        .office-due-badge {
-            font-size: 10px; color: var(--office); background: #f3e5f5; 
-            padding: 2px 6px; border-radius: 4px; margin-top: 5px; display: inline-block; font-weight: bold;
-        }
+        /* --- CONTENT --- */
+        #container { padding: 100px 20px 30px 20px; width: 100%; transition: 0.3s; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .card { background: #1e293b; padding: 20px; border-radius: 16px; text-align: center; border: 1px solid #334155; border-bottom: 4px solid var(--primary); cursor: pointer; transition: 0.3s; }
+        .card b { font-size: 22px; display: block; margin-top: 8px; color: #fff; }
+        .card span { font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: bold; }
 
-        .btn-group { display: flex; gap: 5px; margin-top: 10px; }
-        .btn-small {
-            flex: 1; padding: 8px; border: none; border-radius: 5px; font-size: 12px; cursor: pointer; color: white; text-align: center;
-        }
-        .btn-details { background: #5c6bc0; }
-        .btn-pay { background: var(--success); }
-        .btn-call { background: var(--primary); }
+        /* --- CLIENT CARD --- */
+        .client-card { background: #1e293b; border: 1px solid #334155; border-radius: 15px; padding: 18px; margin-bottom: 15px; border-left: 6px solid var(--primary); position: relative; }
+        .status-tag { position: absolute; top: 15px; right: 15px; font-size: 10px; padding: 3px 8px; border-radius: 20px; font-weight: bold; text-transform: uppercase; z-index: 5; }
+        .tag-pending { background: #374151; color: #94a3b8; }
+        .tag-processing { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+        .tag-ready { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .tag-delivered { background: rgba(79, 70, 229, 0.2); color: var(--primary); }
 
-        /* ফ্লোটিং বাটন */
-        .fab {
-            position: fixed; bottom: 20px; right: 20px;
-            background-color: var(--primary); color: white;
-            width: 50px; height: 50px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            cursor: pointer; z-index: 900;
-        }
+        .dalil-badge { display: inline-block; background: rgba(6, 182, 212, 0.15); color: var(--accent); padding: 2px 8px; border-radius: 6px; font-size: 13px; font-weight: bold; margin-top: 5px; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .payment-info { display: flex; justify-content: space-between; background: #0f172a; padding: 12px; border-radius: 10px; margin-top: 10px; font-size: 14px; font-weight: bold; }
 
-        /* মডাল */
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 3000; align-items: center; justify-content: center;
-        }
-        .modal-content {
-            background: white; padding: 20px; width: 95%; max-width: 380px;
-            border-radius: 10px; max-height: 90vh; overflow-y: auto;
-        }
-        .form-group { margin-bottom: 10px; }
-        .form-group label { display: block; margin-bottom: 4px; font-size: 13px; font-weight: bold; }
-        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; }
-        
-        .bill-section-title { font-size: 12px; color: var(--primary); font-weight: bold; margin-top: 10px; border-bottom: 1px solid #eee; }
-        .bill-input-grid { 
-            display: grid; grid-template-columns: 1fr 1fr; gap: 8px; 
-            background: #f9f9f9; padding: 10px; border-radius: 8px; border: 1px solid #eee; margin-bottom: 5px;
-        }
-        .bill-input-grid div { width: 100%; }
-        .bill-input-grid input { width: 100%; box-sizing: border-box; }
+        /* --- MODALS --- */
+        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 550px; max-width: 95%; background: #1e293b; padding: 30px; border-radius: 20px; z-index: 3000; border: 1px solid #475569; box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-height: 90vh; overflow-y: auto; }
+        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; z-index: 1500; }
 
-        .total-display { text-align: center; font-weight: bold; color: var(--primary); margin: 10px 0; font-size: 16px; border-top: 1px solid #ddd; padding-top: 5px; }
-        .btn-save { background: var(--primary); color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 5px; }
+        /* --- TABS --- */
+        .tab-menu { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 10px; overflow-x: auto; }
+        .tab-btn { background: #0f172a; color: #94a3b8; border: 1px solid #334155; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 13px; white-space: nowrap; }
+        .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
 
-        .details-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .details-table td { padding: 8px; border-bottom: 1px solid #eee; font-size: 13px; }
+        /* --- INPUTS --- */
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 6px; font-size: 13px; color: #94a3b8; }
+        input, select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #475569; background: #0f172a; color: #fff; }
+        .bill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn-save { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
 
-        .view-section { display: none; }
-        .view-section.active { display: block; }
-        
-        .status-select { padding: 5px; border-radius: 4px; border: 1px solid #ddd; width: 100%; margin-top: 5px; }
-        
-        .settings-card { background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .settings-title { font-weight: bold; margin-bottom: 10px; color: var(--primary); border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .fab { position: fixed; bottom: 30px; right: 30px; background: var(--primary); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.3); cursor: pointer; z-index: 1000; }
 
-        /* --- রিপোর্ট টেবিল --- */
-        .report-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        .report-table th, .report-table td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-        .report-table th { background: #eee; }
+        .section { display: none; }
+        .section.active { display: block; }
 
-        /* --- প্রিন্ট স্টাইল (Thermal Printer) --- */
-        @media print {
-            @page { size: 58mm auto; margin: 0; }
-            body { background: white; color: black; font-family: 'SolaimanLipi', sans-serif; }
-            #sidebar, .header, .fab, .no-print, #loginScreen, .overlay { display: none !important; }
-            .modal { position: static; background: white; display: block !important; }
-            .modal-content { box-shadow: none; border: none; width: 100%; padding: 0; max-width: 100%; }
-            .btn-save, .close-btn { display: none; }
-            h3, h4, p { margin: 5px 0; text-align: center; }
-            table { width: 100%; border-collapse: collapse; }
-            td, th { border-bottom: 1px dashed #000; padding: 5px 0; text-align: left; font-size: 12px; }
-            .total-row { font-weight: bold; border-top: 1px solid #000; }
-        }
+        .table-box { background: #1e293b; border-radius: 16px; border: 1px solid #334155; overflow-x: auto; margin-top: 10px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #334155; font-size: 13px; }
+        th { background: #0f172a; color: #94a3b8; }
+
+        .action-btn { background: none; border: none; cursor: pointer; padding: 5px; font-size: 16px; }
+        .btn-view { color: var(--accent); }
+        .btn-edit { color: var(--warning); }
+        .btn-delete { color: var(--danger); }
     </style>
 </head>
 <body>
 
+    <div id="toast-container"></div>
+    <div id="overlay" onclick="closeAll()"></div>
+
+    <!-- লগইন স্ক্রিন -->
     <div id="loginScreen">
-        <div class="login-box">
-            <i class="fas fa-shield-alt" style="font-size: 40px; color: var(--primary); margin-bottom: 10px;"></i>
-            <h3>নিরাপত্তা পিন</h3>
-            <input type="password" id="pinInput" placeholder="****" maxlength="4" inputmode="numeric">
-            <button class="login-btn" onclick="checkLogin()">লগইন</button>
-            <p style="font-size: 10px; margin-top: 10px; opacity: 0.7;">Firebase Connected v3.5</p>
+        <div class="login-card">
+            <h2>নকল নবীশ <span>PRO</span></h2>
+            <p style="color: #94a3b8; font-size: 12px; margin-bottom: 20px;">v13.0 Security Login</p>
+            <input type="email" id="uEmail" class="login-input" placeholder="ইমেইল">
+            <input type="password" id="uPass" class="login-input" placeholder="পাসওয়ার্ড">
+            <button class="login-btn" onclick="login()">➜ লগইন করুন</button>
+            <span class="reset-link" onclick="resetPassword()">পাসওয়ার্ড ভুলে গেছেন?</span>
         </div>
     </div>
 
-    <div id="mainApp">
+    <!-- মেইন অ্যাপ -->
+    <div id="mainApp" style="display:none;">
         <!-- সাইডবার -->
-        <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-        <div class="sidebar" id="sidebar">
+        <div id="sidebar">
             <div class="sidebar-header">
-                <i class="fas fa-user-circle" style="font-size: 40px; margin-bottom: 10px;"></i>
-                <div style="font-weight: bold;" id="sidebarUserName">ব্যবহারকারী</div>
-                <div style="font-size: 12px; opacity: 0.8;">নকল নবীশ</div>
+                <h3 id="sideUserName">মোঃ মঈনুল হাসান</h3>
+                <p id="sideOfficeName">সাব-রেজিস্ট্রারের কার্যালয়, কাশিয়ানী</p>
             </div>
-            <a onclick="showSection('all')"><i class="fas fa-home"></i> ড্যাশবোর্ড</a>
-            <a onclick="showSection('due')"><i class="fas fa-hand-holding-usd" style="color: var(--danger);"></i> কাস্টমার বকেয়া</a>
-            <a onclick="showSection('pending')"><i class="fas fa-clock" style="color: var(--warning);"></i> চলমান কাজ</a>
-            <a onclick="showSection('ready')"><i class="fas fa-check-circle" style="color: var(--success);"></i> ডেলিভারি যোগ্য</a>
-            <a onclick="showSection('office')"><i class="fas fa-briefcase" style="color: var(--office);"></i> অফিস হিসাব</a>
-            <a onclick="showSection('expenses')"><i class="fas fa-calculator"></i> খরচের খাতা</a>
-            <a onclick="showSection('reports')"><i class="fas fa-chart-line"></i> রিপোর্ট</a>
-            <a onclick="showSection('settings')"><i class="fas fa-cog"></i> সেটিংস</a>
-            <a onclick="logout()"><i class="fas fa-sign-out-alt"></i> লগআউট</a>
+
+            <a onclick="showSection('dashboard')" id="nav-dashboard" class="active"><i class="fas fa-home"></i> ড্যাশবোর্ড</a>
+            <a onclick="showSection('pending')" id="nav-pending"><i class="fas fa-spinner"></i> চলমান কাজ</a>
+            <a onclick="showSection('ready')" id="nav-ready"><i class="fas fa-check-circle"></i> ডেলিভারি যোগ্য</a>
+            <a onclick="showSection('due')" id="nav-due"><i class="fas fa-hand-holding-usd"></i> কাস্টমার বকেয়া</a>
+            <a onclick="showSection('customerList')" id="nav-customerList"><i class="fas fa-address-book"></i> কাস্টমার লিস্ট</a>
+            <a onclick="showSection('clients')" id="nav-clients"><i class="fas fa-users"></i> সব কাজের তালিকা</a>
+            <a onclick="showSection('office')" id="nav-office"><i class="fas fa-building"></i> অফিস হিসাব</a>
+            <a onclick="showSection('expenses')" id="nav-expenses"><i class="fas fa-calculator"></i> খরচের খাতা</a>
+            <a onclick="showSection('reports')" id="nav-reports"><i class="fas fa-chart-bar"></i> রিপোর্ট ও এনালাইসিস</a>
+
+            <div class="sidebar-footer">
+                <p>অনলাইন স্ট্যাটাস: <span id="sideStatus" style="color:var(--success)">● অনলাইন</span></p>
+                <span class="dev-credit">ডেভেলপার: আরাফাত সিকদার</span>
+                <p>v13.0 | Smart Nokol Nobish</p>
+            </div>
         </div>
 
-        <!-- হেডার -->
-        <div class="header">
-            <div class="menu-btn" onclick="openSidebar()"><i class="fas fa-bars"></i></div>
-            <div class="header-center">
-                <div class="office-name" id="headerOfficeName">সাব-রেজিস্ট্রারের কার্যালয়</div>
-                <div class="location">কাশিয়ানী, গোপালগঞ্জ <span id="connStatus" class="connection-dot offline"></span></div>
-                <div class="user-badge">
-                    <span class="user-name" id="headerUserName">নকল নবীশ</span>
-                    <span class="user-role"> নকল নবীশ </span>
-                </div>
+        <header>
+            <div class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+            <div class="headline">
+                <span class="office-name" id="headerOfficeName">সাব-রেজিস্ট্রারের কার্যালয়</span>
+                <span class="user-status">
+                    <span id="headerUserName">মোঃ মঈনুল হাসান</span>
+                    <span id="connStatus" class="status-dot"></span>
+                </span>
             </div>
-            <div style="width: 40px; text-align: right;" onclick="showSection('settings')"><i class="fas fa-sliders-h"></i></div>
-        </div>
+            <div id="profileBtn" onclick="toggleProfile()">
+                <i class="fas fa-user-circle"></i> <span id="pName">User</span>
+            </div>
+            <div id="profileMenu">
+                <div class="p-item" onclick="showSection('profile')">👤 আমার প্রোফাইল</div>
+                <div class="p-item" onclick="openModal('settingsModal')">⚙️ সেটিংস</div>
+                <div class="p-item" onclick="logout()" style="color: var(--danger);">🚪 লগআউট</div>
+            </div>
+        </header>
 
-        <div class="container">
+        <div id="container">
             <!-- ড্যাশবোর্ড -->
-            <div id="dashboardView">
+            <div id="dashboard" class="section active">
                 <div class="stats-grid">
-                    <div class="stat-card" onclick="showSection('all')">
-                        <div class="stat-number" id="cashInHand" style="color: var(--primary);">0</div>
-                        <div class="stat-label">নগদ তহবিল</div>
+                    <div class="card" style="border-bottom-color: var(--success);" onclick="showSection('dashboard')">
+                        <span>নগদ তহবিল</span>
+                        <b id="cashInHand">0 ৳</b>
                     </div>
-                    <div class="stat-card" onclick="showSection('due')">
-                        <div class="stat-number" style="color: var(--danger);" id="totalCustomerDue">0</div>
-                        <div class="stat-label">কাস্টমার বকেয়া</div>
+                    <div class="card" style="border-bottom-color: var(--danger);" onclick="showSection('due')">
+                        <span>কাস্টমার বকেয়া</span>
+                        <b id="totalCustomerDue">0 ৳</b>
                     </div>
-                    <div class="stat-card office-card" onclick="showSection('office')">
-                        <div class="stat-number" style="color: var(--office);" id="totalOfficeDue">0</div>
-                        <div class="stat-label">অফিস থেকে পাওনা</div>
+                    <div class="card" style="border-bottom-color: var(--office);" onclick="showSection('office')">
+                        <span>অফিস পাওনা</span>
+                        <b id="totalOfficeDue">0 ৳</b>
                     </div>
-                    <div class="stat-card" onclick="showSection('pending')">
-                        <div class="stat-number" style="color: var(--warning);" id="totalPending">0</div>
-                        <div class="stat-label">চলমান কাজ</div>
+                    <div class="card" style="border-bottom-color: var(--warning);" onclick="showSection('pending')">
+                        <span>চলমান কাজ</span>
+                        <b id="totalPending">0</b>
                     </div>
+                </div>
+                <h3 style="margin-bottom: 15px; color: var(--accent);"><i class="fas fa-history"></i> সাম্প্রতিক কাজ (সর্বশেষ ৫০টি)</h3>
+                <div id="dashboardTaskList"></div>
+            </div>
+
+            <!-- কাস্টমার লিস্ট -->
+            <div id="customerList" class="section">
+                <h3 style="margin-bottom: 20px; color: var(--accent);">👥 কাস্টমার তালিকা</h3>
+                <div class="table-box">
+                    <table>
+                        <thead><tr><th>নাম</th><th>দলিল নং</th><th>মোবাইল</th><th>মোট বিল</th><th>বকেয়া</th><th>অ্যাকশন</th></tr></thead>
+                        <tbody id="customerTableBody"></tbody>
+                    </table>
                 </div>
             </div>
 
-            <!-- ভিউ: কাজের তালিকা -->
-            <div id="clientsView" class="view-section active">
-                <h3 id="listTitle" style="margin: 0 0 15px 0; font-size: 16px; border-bottom: 2px solid #ddd; padding-bottom: 5px;">কাজের তালিকা</h3>
-                <input type="text" id="searchInput" placeholder="🔍 নাম বা দলিল নম্বর খুঁজুন..." 
-                       style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 25px; margin-bottom: 15px;"
-                       onkeyup="renderClients()">
-                <div id="clientList"></div>
-                <button id="loadMoreBtn" class="btn-save" style="background: #ddd; color: #333; margin-top: 10px; display:none;" onclick="loadMore()">আরও দেখুন</button>
-            </div>
+            <!-- অন্যান্য সেকশনসমূহ -->
+            <div id="pending" class="section"><h3 style="margin-bottom:20px; color:var(--warning);">⏳ চলমান কাজের তালিকা</h3><div id="pendingList"></div></div>
+            <div id="ready" class="section"><h3 style="margin-bottom:20px; color:var(--success);">✅ ডেলিভারি যোগ্য কাজ</h3><div id="readyList"></div></div>
+            <div id="due" class="section"><h3 style="margin-bottom:20px; color:var(--danger);">💰 কাস্টমার বকেয়া তালিকা</h3><div id="dueList"></div></div>
+            <div id="clients" class="section"><input type="text" id="searchInput" placeholder="🔍 খুঁজুন..." onkeyup="renderAllLists()" style="margin-bottom:20px;"><div id="allClientsList"></div></div>
+            <div id="office" class="section"><div class="card" style="max-width: 500px; margin: auto; padding: 40px; cursor: default;"><span>মোট অফিস বকেয়া</span><b id="officeViewDue" style="font-size: 45px; color: var(--office); margin: 20px 0;">0 ৳</b><button class="btn-save" style="background: var(--office);" onclick="openOfficePayModal()">সাপ্তাহিক বিল গ্রহণ করুন</button></div></div>
 
-            <!-- ভিউ: অফিস হিসাব -->
-            <div id="officeView" class="view-section">
-                <h3>অফিস হিসাব (সাপ্তাহিক)</h3>
-                <div style="background: var(--white); padding: 15px; border-radius: 10px; margin-bottom: 15px; text-align: center;">
-                    <div style="font-size: 12px; color: #666;">মোট ইন্ডোসমেন্ট/অফিস বকেয়া</div>
-                    <div style="font-size: 24px; font-weight: bold; color: var(--office);" id="officeViewDue">0</div>
-                    <p style="font-size: 10px; color: #888;">সপ্তাহ শেষে এই টাকা বুঝে পেলে নিচের বাটনে চাপুন</p>
-                    <button class="btn-save" style="background: var(--office);" onclick="openOfficePayModal()">সাপ্তাহিক বিল গ্রহণ</button>
-                </div>
-                <div id="officeList"></div>
-            </div>
-
-            <!-- ভিউ: খরচের খাতা -->
-            <div id="expensesView" class="view-section">
-                <h3>খরচের তালিকা</h3>
-                <div style="background: #fff; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+            <!-- খরচের খাতা -->
+            <div id="expenses" class="section">
+                <div class="table-box" style="padding: 20px; max-width: 500px; margin: auto; margin-bottom: 30px;">
                     <div class="form-group"><input type="text" id="exDesc" placeholder="বিবরণ"></div>
-                    <div class="form-group" style="display: flex; gap: 10px;">
-                        <input type="number" id="exAmount" placeholder="টাকা">
-                        <button onclick="addExpense()" style="background: var(--danger); color: white; border: none; padding: 10px; border-radius: 5px;">যোগ</button>
-                    </div>
-                </div>
-                <div style="background: #e0f2f1; padding: 10px; border-radius: 5px; margin-bottom: 10px; font-weight: bold; text-align: center;">
-                    মোট খরচ: <span id="totalExpenseDisplay" style="color: var(--danger);">0</span> টাকা
+                    <div class="form-group"><input type="number" id="exAmount" placeholder="টাকা"></div>
+                    <button class="btn-save" onclick="addExpense()">খরচ যোগ করুন</button>
                 </div>
                 <div id="expenseList"></div>
             </div>
 
-            <!-- ভিউ: রিপোর্ট -->
-            <div id="reportsView" class="view-section">
-                <h3>রিপোর্ট ও এনালাইসিস</h3>
-                <div class="settings-card">
-                    <div class="form-group">
-                        <label>শুরুর তারিখ</label>
-                        <input type="date" id="repStartDate">
-                    </div>
-                    <div class="form-group">
-                        <label>শেষ তারিখ</label>
-                        <input type="date" id="repEndDate">
-                    </div>
-                    <button class="btn-save" onclick="generateReport()">রিপোর্ট দেখুন</button>
+            <!-- রিপোর্ট ও প্রোফাইল -->
+            <div id="reports" class="section">
+                <h3 style="margin-bottom: 20px; color: var(--accent);">📊 রিপোর্ট ও এনালাইসিস</h3>
+                <div class="client-card" style="border-left-color: var(--accent);">
+                    <div class="bill-grid"><div class="form-group"><label>শুরুর তারিখ</label><input type="date" id="reportStartDate"></div><div class="form-group"><label>শেষ তারিখ</label><input type="date" id="reportEndDate"></div></div>
+                    <button class="btn-save" onclick="generateDateReport()">রিপোর্ট দেখুন</button>
                 </div>
-                
-                <div id="reportResult" style="display:none;">
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-number" id="repIncome" style="color: var(--success);">0</div>
-                            <div class="stat-label">মোট আয়</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="repExpense" style="color: var(--danger);">0</div>
-                            <div class="stat-label">মোট ব্যয়</div>
-                        </div>
-                    </div>
-                    <div style="background: white; padding: 10px; border-radius: 10px; text-align: center; margin-bottom: 15px;">
-                        নিট লাভ: <span id="repProfit" style="font-weight: bold; font-size: 18px;">0</span> টাকা
-                    </div>
+                <div id="reportResult" style="display:none; margin-top:20px;">
+                    <div class="stats-grid"><div class="card" style="border-bottom-color: var(--success);"><span>মোট জমা</span><b id="repTotalIncome">0 ৳</b></div><div class="card" style="border-bottom-color: var(--danger);"><span>মোট খরচ</span><b id="repTotalExpense">0 ৳</b></div></div>
+                    <div id="reportDetailsList"></div>
                 </div>
             </div>
-
-            <!-- ভিউ: সেটিংস -->
-            <div id="settingsView" class="view-section">
-                <h3>সেটিংস</h3>
-                
-                <div class="settings-card">
-                    <div class="settings-title">প্রোফাইল</div>
-                    <div class="form-group">
-                        <label>আপনার নাম</label>
-                        <input type="text" id="setUserName" placeholder="নাম লিখুন">
-                    </div>
-                    <div class="form-group">
-                        <label>অফিসের নাম</label>
-                        <input type="text" id="setOfficeName" placeholder="অফিসের নাম">
-                    </div>
-                    <button class="btn-save" onclick="saveProfileSettings()">সেভ করুন</button>
-                </div>
-
-                <div class="settings-card">
-                    <div class="settings-title">ডাটা ব্যাকআপ</div>
-                    <button class="btn-save" style="background: #2e7d32; margin-bottom: 10px;" onclick="exportData()">📥 এক্সেল ডাউনলোড (Excel)</button>
-                    <button class="btn-save" style="background: var(--danger);" onclick="resetAllData()">সব ডাটা রিসেট</button>
-                </div>
-            </div>
+            <div id="profile" class="section"><div class="card" style="max-width: 450px; margin: auto;"><i class="fas fa-user-shield" style="font-size: 60px; color: var(--primary);"></i><h2 id="profName" style="margin-top: 15px;">নাম</h2><p id="profOffice" style="color: var(--text-light);">অফিস</p><button class="btn-save" style="background:var(--warning); color:#000; margin-top:20px;" onclick="resetPassword()">পাসওয়ার্ড রিসেট লিংক পাঠান</button></div></div>
         </div>
 
-        <div class="fab" id="addClientBtn" onclick="openModal()">
-            <i class="fas fa-plus"></i>
-        </div>
+        <div class="fab" onclick="openModal('entryModal')"><i class="fas fa-plus"></i></div>
 
         <!-- এন্ট্রি মডাল -->
         <div class="modal" id="entryModal">
-            <div class="modal-content">
-                <span onclick="closeModal('entryModal')" style="float: right; cursor: pointer; font-size: 24px;">&times;</span>
-                <h3 style="margin-top: 0; color: var(--primary);">নতুন কাজ</h3>
-                <div class="form-group"><input type="text" id="cName" placeholder="কাস্টমারের নাম"></div>
-                <div class="form-group">
-                    <input type="tel" id="cMobile" placeholder="মোবাইল (01xxxxxxxxx)" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                </div>
-                <div class="form-group"><input type="text" id="cDalil" placeholder="দলিল নম্বর"></div>
-                
-                <div class="bill-section-title">কাস্টমার দিবে:</div>
-                <div class="bill-input-grid">
-                    <div><label style="font-size: 10px;">নকল ফি</label><input type="number" id="feeNokol" placeholder="0" oninput="calcTotal()"></div>
-                    <div><label style="font-size: 10px;">কম্পিউটার</label><input type="number" id="feeComputer" placeholder="0" oninput="calcTotal()"></div>
-                    <div><label style="font-size: 10px;">তল্লাশ/অন্যান্য</label><input type="number" id="feeTollash" placeholder="0" oninput="calcTotal()"></div>
-                </div>
-
-                <div class="bill-section-title" style="color: var(--office);">অফিস দিবে (সাপ্তাহিক):</div>
-                <div class="bill-input-grid" style="background: #f3e5f5; border-color: #e1bee7;">
-                    <div><label style="font-size: 10px;">ইন্ডোসমেন্ট</label><input type="number" id="feeEndorse" placeholder="0" oninput="calcTotal()"></div>
-                    <div><label style="font-size: 10px;">অন্যান্য (অফিস)</label><input type="number" id="feeOfficeOther" placeholder="0" oninput="calcTotal()"></div>
-                </div>
-
-                <div class="total-display">
-                    কাস্টমার বিল: <span id="cTotalDisplay">0</span> টাকা<br>
-                    <span style="font-size: 12px; color: var(--office);">অফিস পাওনা: <span id="cOfficeDisplay">0</span> টাকা</span>
-                </div>
-
-                <div class="form-group"><label>কাস্টমার জমা (অগ্রিম)</label><input type="number" id="cAdvance" oninput="calcTotal()" placeholder="0"></div>
-                <div class="form-group"><label>কাস্টমার বকেয়া: <span id="cDueDisplay" style="color: red;">0</span> টাকা</label></div>
-                <div class="form-group"><input type="date" id="cDate"></div>
-                <button class="btn-save" onclick="saveClient()">সেভ করুন</button>
+            <h3 id="modalTitle" style="color: var(--accent); margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 10px;">নতুন কাজ এন্ট্রি</h3>
+            <input type="hidden" id="editClientId">
+            <div class="form-group"><label>কাস্টমারের নাম</label><input type="text" id="cName" placeholder="নাম লিখুন"></div>
+            <div class="bill-grid"><div class="form-group"><label>মোবাইল</label><input type="tel" id="cMobile" maxlength="11"></div><div class="form-group"><label>দলিল নম্বর</label><input type="text" id="cDalil"></div></div>
+            <div class="form-group"><label>তারিখ</label><input type="date" id="cDate"></div>
+            <p style="font-size:12px; font-weight:bold; color:var(--primary); margin-bottom:10px;">কাস্টমার বিল (টাকা):</p>
+            <div class="bill-grid"><div class="form-group"><label>নকল ফি</label><input type="number" id="feeNokol" value="0" oninput="calcTotal()"></div><div class="form-group"><label>তল্লাশ</label><input type="number" id="feeTollash" value="0" oninput="calcTotal()"></div></div>
+            <p style="font-size:12px; font-weight:bold; color:var(--office); margin-bottom:10px;">অফিস পাওনা (টাকা):</p>
+            <div class="bill-grid" style="background: rgba(139, 92, 246, 0.1); padding: 10px; border-radius: 10px;">
+                <div class="form-group"><label>ইন্ডোসমেন্ট</label><input type="number" id="feeEndorse" value="0" oninput="calcTotal()"></div>
+                <div class="form-group"><label>কম্পিউটার ফি</label><input type="number" id="feeComputer" value="0" oninput="calcTotal()"></div>
+                <div class="form-group"><label>অন্যান্য</label><input type="number" id="feeOfficeOther" value="0" oninput="calcTotal()"></div>
+                <div class="form-group"><label>মোট অফিস</label><div id="cOfficeDisplay" style="font-weight:bold; color:var(--office); padding:10px 0;">0</div></div>
             </div>
+            <div style="background: var(--primary); color: #fff; padding: 15px; border-radius: 12px; margin: 15px 0; text-align: center;">মোট কাস্টমার বিল: ৳ <span id="cTotalDisplay" style="font-size: 24px; font-weight: 800;">0</span></div>
+            <div class="bill-grid"><div class="form-group"><label>জমা (অগ্রিম)</label><input type="number" id="cAdvance" value="0" oninput="calcTotal()"></div><div class="form-group"><label>বকেয়া</label><div id="cDueDisplay" style="color: var(--danger); font-weight:bold; padding:12px 0; font-size:18px;">0</div></div></div>
+            <button class="btn-save" id="saveBtn" onclick="saveClient()">💾 ডাটা সেভ করুন</button>
+            <button onclick="closeAll()" style="background:none; color:var(--text-light); border:none; width:100%; margin-top:10px; cursor:pointer;">বাতিল</button>
         </div>
 
-        <!-- ডিটেইলস মডাল -->
-        <div class="modal" id="detailsModal">
-            <div class="modal-content">
-                <span class="close-btn" onclick="closeModal('detailsModal')" style="float: right; cursor: pointer; font-size: 24px;">&times;</span>
-                <h3 style="margin-top: 0; color: var(--primary); border-bottom: 1px solid #ddd; padding-bottom: 10px;">বিস্তারিত</h3>
-                <div id="detailsContent"></div>
-                <div style="margin-top: 15px;" class="no-print">
-                    <button class="btn-save" style="background: #455a64;" onclick="printCurrentMemo()"><i class="fas fa-print"></i> প্রিন্ট মেমো</button>
-                </div>
-            </div>
+        <!-- বিস্তারিত ভিউ মডাল -->
+        <div class="modal" id="viewDetailsModal">
+            <h3 style="color: var(--accent); margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 10px;">কাস্টমার বিস্তারিত</h3>
+            <div id="detailsContent" style="font-size: 14px; line-height: 1.8;"></div>
+            <button onclick="closeAll()" style="background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; margin-top: 20px; font-weight: bold; cursor: pointer;">বন্ধ করুন</button>
         </div>
 
-        <!-- পেমেন্ট মডাল -->
-        <div class="modal" id="paymentModal">
-            <div class="modal-content">
-                <span onclick="closeModal('paymentModal')" style="float: right; cursor: pointer; font-size: 24px;">&times;</span>
-                <h3>টাকা জমা (কাস্টমার)</h3>
-                <p id="payName" style="font-weight: bold;"></p>
-                <div class="form-group"><input type="number" id="newPaymentAmount" placeholder="পরিমাণ"></div>
-                <input type="hidden" id="payClientId">
-                <button class="btn-save" style="background: var(--success);" onclick="submitPayment()">জমা করুন</button>
-            </div>
+        <!-- খরচ এডিট মডাল -->
+        <div class="modal" id="expenseEditModal">
+            <h3 style="color: var(--danger); margin-bottom: 20px;">খরচ সংশোধন</h3>
+            <input type="hidden" id="editExpenseId">
+            <div class="form-group"><label>বিবরণ</label><input type="text" id="editExDesc"></div>
+            <div class="form-group"><label>টাকা</label><input type="number" id="editExAmount"></div>
+            <button class="btn-save" style="background: var(--danger);" onclick="updateExpense()">আপডেট করুন</button>
+            <button onclick="closeAll()" style="background:none; color:var(--text-light); border:none; width:100%; margin-top:10px; cursor:pointer;">বন্ধ করুন</button>
+        </div>
+
+        <!-- সেটিংস মডাল -->
+        <div class="modal" id="settingsModal">
+            <h3 style="color: var(--accent); margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 10px;">⚙️ অ্যাপ সেটিংস</h3>
+            <div class="tab-menu"><button class="tab-btn active" onclick="switchTab('general')">General</button><button class="tab-btn" onclick="switchTab('security')">Security</button><button class="tab-btn" onclick="switchTab('database')" style="color:var(--danger)">Database</button></div>
+            <div id="tab-general" class="tab-content"><div class="form-group"><label>আপনার নাম</label><input type="text" id="setUserName"></div><div class="form-group"><label>অফিসের নাম</label><input type="text" id="setOfficeName"></div><div class="form-group"><label>থিম কালার</label><input type="color" id="setThemeColor" style="height:50px;"></div><button class="btn-save" onclick="saveSettings()">আপডেট করুন</button></div>
+            <div id="tab-security" class="tab-content" style="display:none;"><div class="form-group"><label>বর্তমান পাসওয়ার্ড</label><input type="password" id="oldPassword" placeholder="Old Password"></div><div class="form-group"><label>নতুন পাসওয়ার্ড</label><input type="password" id="newPassword" placeholder="কমপক্ষে ৬ ডিজিট"></div><button class="btn-save" style="background:var(--warning); color:#000;" onclick="changePassword()">পাসওয়ার্ড পরিবর্তন করুন</button></div>
+            <div id="tab-database" class="tab-content" style="display:none;"><button class="btn-save" style="background:var(--success);" onclick="downloadBackup()">📥 ডাটা ব্যাকআপ (JSON)</button><button class="btn-save" style="background:var(--danger); margin-top:20px;" onclick="factoryReset()">🔥 সব ডাটা মুছে ফেলুন</button></div>
+            <button onclick="closeAll()" style="background:none; color:var(--text-light); border:none; width:100%; margin-top:15px; cursor:pointer;">বন্ধ করুন</button>
         </div>
 
         <!-- অফিস পেমেন্ট মডাল -->
-        <div class="modal" id="officePayModal">
-            <div class="modal-content">
-                <span onclick="closeModal('officePayModal')" style="float: right; cursor: pointer; font-size: 24px;">&times;</span>
-                <h3 style="color: var(--office);">অফিস বিল গ্রহণ</h3>
-                <p>মোট পাওনা: <span id="modalOfficeDue" style="font-weight: bold;">0</span> টাকা</p>
-                <div class="form-group">
-                    <label>কত টাকা বুঝে পেয়েছেন?</label>
-                    <input type="number" id="officeReceivedAmount" placeholder="টাকার পরিমাণ">
-                </div>
-                <button class="btn-save" style="background: var(--office);" onclick="submitOfficePayment()">সেভ করুন</button>
-            </div>
-        </div>
-
+        <div class="modal" id="officePayModal"><h3 style="color: var(--office);">অফিস বিল গ্রহণ</h3><p>মোট পাওনা: <span id="modalOfficeDue" style="font-weight:bold;">0</span> ৳</p><div class="form-group"><label>টাকার পরিমাণ</label><input type="number" id="officeReceivedAmount"></div><button class="btn-save" style="background: var(--office);" onclick="submitOfficePayment()">সেভ করুন</button><button onclick="closeAll()" style="background:none; color:var(--text-light); border:none; width:100%; margin-top:10px; cursor:pointer;">বন্ধ করুন</button></div>
     </div>
 
-<script type="module">
-    // --- Firebase Integration ---
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, set, get, onValue, remove, update, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    <!-- FIREBASE LIBRARIES -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCzq8ATdWjw4Ut65bEGVL08oS9SU-5I8Pk",
-      authDomain: "md-moinul-hasan.firebaseapp.com",
-      databaseURL: "https://md-moinul-hasan-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "md-moinul-hasan",
-      storageBucket: "md-moinul-hasan.firebasestorage.app",
-      messagingSenderId: "158273523711",
-      appId: "1:158273523711:web:bf90523fbf578bfb9121ca"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-
-    // Global Variables
-    window.appSettings = { 
-        pin: "1234", 
-        themeColor: "#00695c", 
-        userName: "মোঃ মঈনুল হাসান", 
-        officeName: "সাব-রেজিস্ট্রারের কার্যালয়" 
-    };
-    window.clients = [];
-    window.expenses = [];
-    window.officeTransactions = [];
-    window.currentDetailId = null;
-    window.renderLimit = 50; // Pagination Limit
-
-    // --- Connection Monitor ---
-    const connectedRef = ref(db, ".info/connected");
-    onValue(connectedRef, (snap) => {
-        const el = document.getElementById('connStatus');
-        if (snap.val() === true) {
-            el.classList.remove('offline'); el.classList.add('online');
-        } else {
-            el.classList.remove('online'); el.classList.add('offline');
-        }
-    });
-
-    // --- Firebase Listeners ---
-    onValue(ref(db, 'appSettings'), (snapshot) => {
-        const data = snapshot.val();
-        if (data) { window.appSettings = data; applySettings(); }
-        else { set(ref(db, 'appSettings'), window.appSettings); }
-    });
-
-    onValue(ref(db, 'clients'), (snapshot) => {
-        const data = snapshot.val();
-        window.clients = data ? Object.values(data).sort((a,b) => b.id - a.id) : [];
-        renderAll();
-    });
-
-    onValue(ref(db, 'expenses'), (snapshot) => {
-        const data = snapshot.val();
-        window.expenses = data ? Object.values(data).sort((a,b) => b.id - a.id) : [];
-        renderAll();
-    });
-
-    onValue(ref(db, 'officeTransactions'), (snapshot) => {
-        const data = snapshot.val();
-        window.officeTransactions = data ? Object.values(data) : [];
-        renderAll();
-    });
-
-    // --- Settings Apply ---
-    window.applySettings = function() {
-        document.documentElement.style.setProperty('--primary', window.appSettings.themeColor);
-        if(document.getElementById('headerUserName')) document.getElementById('headerUserName').innerText = window.appSettings.userName;
-        if(document.getElementById('sidebarUserName')) document.getElementById('sidebarUserName').innerText = window.appSettings.userName;
-        if(document.getElementById('headerOfficeName')) document.getElementById('headerOfficeName').innerText = window.appSettings.officeName;
-        if(document.getElementById('setUserName')) document.getElementById('setUserName').value = window.appSettings.userName;
-        if(document.getElementById('setOfficeName')) document.getElementById('setOfficeName').value = window.appSettings.officeName;
-    }
-    
-    // --- Init ---
-    window.checkLogin = function() {
-        if(document.getElementById('pinInput').value === window.appSettings.pin) {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('mainApp').style.display = 'block';
-            renderAll();
-        } else { alert("ভুল পিন!"); }
-    }
-    
-    // --- Navigation ---
-    window.openSidebar = function() { document.getElementById('sidebar').classList.add('active'); document.getElementById('overlay').classList.add('active'); }
-    window.closeSidebar = function() { document.getElementById('sidebar').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); }
-    
-    window.showSection = function(type) {
-        closeSidebar();
-        document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-        document.getElementById('addClientBtn').style.display = 'none';
-        document.getElementById('dashboardView').style.display = 'none';
-
-        if(type === 'all' || type === 'due' || type === 'pending' || type === 'ready') {
-            document.getElementById('dashboardView').style.display = 'block';
-            if(type !== 'all') { 
-                 document.getElementById('clientsView').classList.add('active');
-                 document.getElementById('addClientBtn').style.display = 'flex';
-            }
-        } else if(type === 'expenses') {
-            document.getElementById('expensesView').classList.add('active');
-        } else if(type === 'office') {
-            document.getElementById('officeView').classList.add('active');
-        } else if(type === 'reports') {
-            document.getElementById('reportsView').classList.add('active');
-        } else if(type === 'settings') {
-            document.getElementById('settingsView').classList.add('active');
-        }
-        
-        if(type === 'all') { 
-            document.getElementById('clientsView').classList.add('active');
-            document.getElementById('addClientBtn').style.display = 'flex';
-        }
-
-        const titles = { 'all': 'সব কাজের তালিকা', 'due': 'বকেয়া তালিকা', 'pending': 'চলমান কাজের তালিকা', 'ready': 'ডেলিভারি যোগ্য কাজ' };
-        if(titles[type]) document.getElementById('listTitle').innerText = titles[type];
-
-        window.renderLimit = 50; // Reset limit on section change
-        renderClients(type);
-    }
-
-    // --- Settings Logic ---
-    window.saveProfileSettings = function() {
-        const newSettings = { ...window.appSettings };
-        newSettings.userName = document.getElementById('setUserName').value;
-        newSettings.officeName = document.getElementById('setOfficeName').value;
-        set(ref(db, 'appSettings'), newSettings).then(() => alert("প্রোফাইল আপডেট হয়েছে!"));
-    }
-
-    // --- Logic: Calculation ---
-    window.calcTotal = function() {
-        const feeNokol = parseFloat(document.getElementById('feeNokol').value)||0;
-        const feeComputer = parseFloat(document.getElementById('feeComputer').value)||0;
-        const feeTollash = parseFloat(document.getElementById('feeTollash').value)||0;
-        const custTotal = feeNokol + feeComputer + feeTollash;
-
-        const feeEndorse = parseFloat(document.getElementById('feeEndorse').value)||0;
-        const feeOfficeOther = parseFloat(document.getElementById('feeOfficeOther').value)||0;
-        const officeTotal = feeEndorse + feeOfficeOther;
-
-        document.getElementById('cTotalDisplay').innerText = custTotal;
-        document.getElementById('cOfficeDisplay').innerText = officeTotal;
-
-        const adv = parseFloat(document.getElementById('cAdvance').value)||0;
-        document.getElementById('cDueDisplay').innerText = custTotal - adv;
-    }
-
-    window.saveClient = function() {
-        const name = document.getElementById('cName').value;
-        const mobile = document.getElementById('cMobile').value;
-        
-        if(!name) { alert("নাম দিন!"); return; }
-        if(mobile.length !== 11 || !mobile.startsWith('01')) { alert("সঠিক মোবাইল নম্বর দিন!"); return; }
-
-        const feeNokol = parseFloat(document.getElementById('feeNokol').value)||0;
-        const feeComputer = parseFloat(document.getElementById('feeComputer').value)||0;
-        const feeTollash = parseFloat(document.getElementById('feeTollash').value)||0;
-        const feeEndorse = parseFloat(document.getElementById('feeEndorse').value)||0;
-        const feeOfficeOther = parseFloat(document.getElementById('feeOfficeOther').value)||0;
-
-        const custTotal = feeNokol + feeComputer + feeTollash;
-        const officeTotal = feeEndorse + feeOfficeOther;
-        const advance = parseFloat(document.getElementById('cAdvance').value)||0;
-        
-        const id = Date.now();
-        const newClient = {
-            id: id,
-            name, mobile, dalil: document.getElementById('cDalil').value,
-            feeNokol, feeComputer, feeTollash,
-            feeEndorse, feeOfficeOther,
-            custTotal, officeTotal, advance,
-            due: custTotal - advance,
-            isOfficePaid: false,
-            date: document.getElementById('cDate').value,
-            status: 'Pending'
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCzq8ATdWjw4Ut65bEGVL08oS9SU-5I8Pk",
+            authDomain: "md-moinul-hasan.firebaseapp.com",
+            databaseURL: "https://md-moinul-hasan-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "md-moinul-hasan",
+            storageBucket: "md-moinul-hasan.firebasestorage.app",
+            messagingSenderId: "158273523711",
+            appId: "1:158273523711:web:bf90523fbf578bfb9121ca"
         };
 
-        set(ref(db, 'clients/' + id), newClient);
-        closeModal('entryModal');
-        clearForm();
-    }
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const auth = firebase.auth();
 
-    // --- Rendering (Optimized) ---
-    window.renderClients = function(filterType = 'all') {
-        const listDiv = document.getElementById('clientList');
-        const search = document.getElementById('searchInput').value.toLowerCase();
-        listDiv.innerHTML = '';
+        let clients = [];
+        let expenses = [];
+        let officeTransactions = [];
 
-        let filtered = window.clients.filter(c => {
-            if(c.custTotal === undefined) { c.custTotal = c.total; c.officeTotal = 0; c.feeTollash = c.feeOther; }
-            let match = true;
-            if(filterType === 'due' && c.due <= 0) match = false;
-            if(filterType === 'pending' && c.status === 'Delivered') match = false;
-            if(filterType === 'ready' && c.status !== 'Ready') match = false;
-            if(search && !c.name.toLowerCase().includes(search) && !c.dalil.includes(search)) match = false;
-            return match;
-        });
-
-        // Pagination Logic
-        const totalItems = filtered.length;
-        const toShow = filtered.slice(0, window.renderLimit);
-
-        toShow.forEach(c => {
-            const html = `
-            <div class="client-card status-${c.status}">
-                <div class="client-header">
-                    <div class="client-name">${c.name}</div>
-                    <div class="dalil-no">${c.dalil || 'দলিল নেই'}</div>
-                </div>
-                <div class="payment-info">
-                    <span>বিল: ${c.custTotal}</span>
-                    <span>জমা: ${c.advance}</span>
-                    <span style="color: ${c.due > 0 ? 'red' : 'green'};">বাকি: ${c.due}</span>
-                </div>
-                ${c.officeTotal > 0 && !c.isOfficePaid ? `<div class="office-due-badge">অফিস পাওনা: ${c.officeTotal}</div>` : ''}
-                <select class="status-select" onchange="updateStatus(${c.id}, this.value)">
-                    <option value="Pending" ${c.status==='Pending'?'selected':''}>অপেক্ষমান</option>
-                    <option value="Processing" ${c.status==='Processing'?'selected':''}>চলমান</option>
-                    <option value="Ready" ${c.status==='Ready'?'selected':''}>রেডি</option>
-                    <option value="Delivered" ${c.status==='Delivered'?'selected':''}>ডেলিভারড</option>
-                </select>
-                <div class="btn-group">
-                    <button class="btn-small btn-details" onclick="viewDetails(${c.id})">বিস্তারিত</button>
-                    ${c.due > 0 ? `<button class="btn-small btn-pay" onclick="openPayModal(${c.id})">জমা</button>` : ''}
-                    <a href="tel:${c.mobile}" class="btn-small btn-call">কল</a>
-                    <button class="btn-small" style="background:#d32f2f;" onclick="deleteClient(${c.id})">X</button>
-                </div>
-            </div>`;
-            listDiv.innerHTML += html;
-        });
-
-        const loadBtn = document.getElementById('loadMoreBtn');
-        if(totalItems > window.renderLimit) {
-            loadBtn.style.display = 'block';
-            loadBtn.innerText = `আরও দেখুন (${totalItems - window.renderLimit} টি বাকি)`;
-        } else {
-            loadBtn.style.display = 'none';
+        // --- Auth ---
+        function login() {
+            const email = document.getElementById("uEmail").value;
+            const pass = document.getElementById("uPass").value;
+            if(!email || !pass) return showToast("ইমেইল ও পাসওয়ার্ড দিন", "danger");
+            auth.signInWithEmailAndPassword(email, pass).catch(err => showToast("ভুল তথ্য!", "danger"));
         }
-    }
-
-    window.loadMore = function() {
-        window.renderLimit += 50;
-        renderClients(); // Re-render with new limit
-    }
-
-    window.viewDetails = function(id) {
-        window.currentDetailId = id;
-        const c = window.clients.find(x => x.id === id);
-        const ft = c.feeTollash || c.feeOther || 0;
-        const ot = c.officeTotal || 0; 
-        const ct = c.custTotal || c.total;
-
-        const html = `
-            <table class="details-table">
-                <tr><td colspan="2" style="background:#eee;">কাস্টমার অংশ</td></tr>
-                <tr><td>নকল ফি</td><td>${c.feeNokol}</td></tr>
-                <tr><td>কম্পিউটার</td><td>${c.feeComputer}</td></tr>
-                <tr><td>তল্লাশ/অন্যান্য</td><td>${ft}</td></tr>
-                <tr><td style="font-weight:bold;">মোট বিল (কাস্টমার)</td><td style="font-weight:bold;">${ct}</td></tr>
-                <tr><td>জমা দিয়েছে</td><td>${c.advance}</td></tr>
-                <tr><td style="color:red;">বকেয়া (কাস্টমার)</td><td style="color:red; font-weight:bold;">${c.due}</td></tr>
-                <tr><td colspan="2" style="background:#f3e5f5; color:var(--office);">অফিস অংশ</td></tr>
-                <tr><td>ইন্ডোসমেন্ট</td><td>${c.feeEndorse || 0}</td></tr>
-                <tr><td>অন্যান্য</td><td>${c.feeOfficeOther || 0}</td></tr>
-                <tr><td style="font-weight:bold;">মোট পাওনা</td><td style="font-weight:bold;">${ot}</td></tr>
-                <tr><td>স্ট্যাটাস</td><td>${c.isOfficePaid ? 'পরিশোধিত' : 'অনাদায়ী'}</td></tr>
-            </table>
-        `;
-        document.getElementById('detailsContent').innerHTML = html;
-        document.getElementById('detailsModal').style.display = 'flex';
-    }
-
-    window.printCurrentMemo = function() {
-        const c = window.clients.find(x => x.id === window.currentDetailId);
-        const ct = c.custTotal || c.total;
-        const ft = c.feeTollash || c.feeOther || 0;
-
-        // Thermal Printer Friendly Layout
-        const win = window.open('', '', 'width=400,height=600');
-        win.document.write(`
-            <html><head><title>Memo</title>
-            <style>
-                body{font-family:'SolaimanLipi',sans-serif; padding:10px; margin:0; font-size:12px;}
-                h3,h4,p{text-align:center; margin:2px 0;}
-                table{width:100%; border-collapse:collapse; margin-top:10px;}
-                td{padding:4px 0; border-bottom:1px dashed #000;}
-                .total{font-weight:bold; border-top:1px solid #000;}
-            </style>
-            </head><body>
-            <h3>${window.appSettings.officeName}</h3>
-            <p>কাশিয়ানী, গোপালগঞ্জ</p>
-            <p>--------------------------------</p>
-            <p>নাম: ${c.name}</p>
-            <p>দলিল: ${c.dalil}</p>
-            <p>তারিখ: ${new Date().toLocaleDateString('bn-BD')}</p>
-            <table>
-                <tr><td>নকল ফি</td><td align="right">${c.feeNokol}</td></tr>
-                <tr><td>কম্পিউটার</td><td align="right">${c.feeComputer}</td></tr>
-                <tr><td>তল্লাশ/বিবিধ</td><td align="right">${ft}</td></tr>
-                <tr class="total"><td>সর্বমোট</td><td align="right">${ct}</td></tr>
-                <tr><td>জমা</td><td align="right">${c.advance}</td></tr>
-                <tr class="total"><td>বকেয়া</td><td align="right">${c.due}</td></tr>
-            </table>
-            <p style="margin-top:20px; text-align:center;">ধন্যবাদ</p>
-            </body></html>
-        `);
-        win.document.close();
-        win.focus();
-        setTimeout(() => { win.print(); win.close(); }, 500);
-    }
-
-    // --- Financial Logic ---
-    window.openPayModal = function(id) {
-        const c = window.clients.find(x => x.id === id);
-        document.getElementById('payClientId').value = id;
-        document.getElementById('payName').innerText = c.name + " (বাকি: " + c.due + ")";
-        document.getElementById('paymentModal').style.display = 'flex';
-    }
-
-    window.submitPayment = function() {
-        const id = parseInt(document.getElementById('payClientId').value);
-        const amt = parseFloat(document.getElementById('newPaymentAmount').value);
-        const c = window.clients.find(x => x.id === id);
-        if(c && amt > 0) {
-            const newAdvance = c.advance + amt;
-            const newDue = c.custTotal - newAdvance;
-            update(ref(db, 'clients/' + id), { advance: newAdvance, due: newDue });
-            closeModal('paymentModal');
+        function logout() { auth.signOut().then(() => location.reload()); }
+        function resetPassword() {
+            const email = document.getElementById("uEmail").value || auth.currentUser?.email;
+            if(!email) return showToast("আগে ইমেইলটি লিখুন", "danger");
+            auth.sendPasswordResetEmail(email).then(() => alert("রিসেট লিংক পাঠানো হয়েছে।"));
         }
-    }
-
-    window.getOfficeDue = function() {
-        return window.clients.reduce((sum, c) => {
-            if(c.officeTotal > 0 && !c.isOfficePaid) return sum + c.officeTotal;
-            return sum;
-        }, 0);
-    }
-
-    window.openOfficePayModal = function() {
-        const due = getOfficeDue();
-        if(due <= 0) { alert("অফিস থেকে কোনো বকেয়া নেই!"); return; }
-        document.getElementById('modalOfficeDue').innerText = due;
-        document.getElementById('officeReceivedAmount').value = due;
-        document.getElementById('officePayModal').style.display = 'flex';
-    }
-
-    window.submitOfficePayment = function() {
-        const amount = parseFloat(document.getElementById('officeReceivedAmount').value);
-        if(!amount || amount <= 0) return;
-        const newTx = { date: new Date().toISOString(), amount: amount };
-        push(ref(db, 'officeTransactions'), newTx);
-        let remaining = amount;
-        const updates = {};
-        window.clients.forEach(c => {
-            if(c.officeTotal > 0 && !c.isOfficePaid && remaining > 0) {
-                updates['clients/' + c.id + '/isOfficePaid'] = true;
-            }
-        });
-        update(ref(db), updates);
-        closeModal('officePayModal');
-        alert("অফিস পেমেন্ট সফল!");
-    }
-
-    window.updateStatus = function(id, st) { update(ref(db, 'clients/' + id), { status: st }); }
-    window.deleteClient = function(id) { if(confirm("ডিলিট করবেন?")) { remove(ref(db, 'clients/' + id)); } }
-
-    window.openModal = function() { document.getElementById('entryModal').style.display = 'flex'; document.getElementById('cDate').valueAsDate = new Date(); }
-    window.closeModal = function(id) { document.getElementById(id).style.display = 'none'; }
-    window.clearForm = function() { 
-        ['cName','cMobile','cDalil','feeNokol','feeComputer','feeTollash','feeEndorse','feeOfficeOther','cAdvance'].forEach(id => document.getElementById(id).value = '');
-        document.getElementById('cTotalDisplay').innerText = '0'; document.getElementById('cOfficeDisplay').innerText = '0';
-    }
-    window.logout = function() { location.reload(); }
-    window.resetAllData = function() { if(confirm("সতর্কতা: সব ডাটা মুছে যাবে!")) { remove(ref(db)); location.reload(); } }
-    
-    window.addExpense = function() {
-        const desc = document.getElementById('exDesc').value;
-        const amt = parseFloat(document.getElementById('exAmount').value);
-        if(desc && amt) {
-            const id = Date.now();
-            set(ref(db, 'expenses/' + id), {id: id, desc, amount: amt, date: new Date().toISOString()});
-            document.getElementById('exDesc').value = ''; document.getElementById('exAmount').value = '';
+        function changePassword() {
+            const user = auth.currentUser;
+            const oldPass = document.getElementById("oldPassword").value;
+            const newPass = document.getElementById("newPassword").value;
+            if(!oldPass || newPass.length < 6) return showToast("সব তথ্য সঠিক দিন", "danger");
+            const credential = firebase.auth.EmailAuthProvider.credential(user.email, oldPass);
+            user.reauthenticateWithCredential(credential).then(() => {
+                user.updatePassword(newPass).then(() => { showToast("পাসওয়ার্ড পরিবর্তন হয়েছে", "success"); closeAll(); });
+            }).catch(err => showToast("বর্তমান পাসওয়ার্ড ভুল!", "danger"));
         }
-    }
 
-    // --- Report Logic ---
-    window.generateReport = function() {
-        const start = new Date(document.getElementById('repStartDate').value);
-        const end = new Date(document.getElementById('repEndDate').value);
-        
-        if(isNaN(start) || isNaN(end)) { alert("তারিখ নির্বাচন করুন"); return; }
-        end.setHours(23,59,59); // Include full end day
+        auth.onAuthStateChanged(user => {
+            if (user) { document.getElementById("loginScreen").style.display = "none"; document.getElementById("mainApp").style.display = "block"; initData(); }
+            else { document.getElementById("loginScreen").style.display = "flex"; }
+        });
 
-        let income = 0;
-        let expense = 0;
+        function initData() {
+            db.ref("appSettings").on("value", snap => { if(snap.exists()) applySettings(snap.val()); });
+            db.ref("clients").on("value", snap => {
+                clients = snap.exists() ? Object.values(snap.val()).sort((a,b)=>b.id-a.id) : [];
+                renderAllLists(); renderCustomerTable(); updateStats();
+            });
+            db.ref("expenses").on("value", snap => {
+                expenses = snap.exists() ? Object.keys(snap.val()).map(key => ({ key, ...snap.val()[key] })).sort((a,b)=>b.id-a.id) : [];
+                renderExpenses(); updateStats();
+            });
+            db.ref("officeTransactions").on("value", snap => { officeTransactions = snap.exists() ? Object.values(snap.val()) : []; updateStats(); });
+            db.ref(".info/connected").on("value", snap => {
+                const dot = document.getElementById("connStatus");
+                if(snap.val()) dot.classList.add("online"); else dot.classList.remove("online");
+            });
+        }
 
-        // Calculate Income (from Clients created in range)
-        window.clients.forEach(c => {
-            const cDate = new Date(c.date);
-            if(cDate >= start && cDate <= end) {
-                income += (c.advance || 0); // Only counted collected money
+        // --- Core Logic ---
+        function calcTotal() {
+            const getV = id => parseFloat(document.getElementById(id).value) || 0;
+            const cTotal = getV('feeNokol') + getV('feeTollash');
+            const oTotal = getV('feeEndorse') + getV('feeComputer') + getV('feeOfficeOther');
+            const adv = getV('cAdvance');
+            document.getElementById('cTotalDisplay').innerText = cTotal;
+            document.getElementById('cOfficeDisplay').innerText = oTotal;
+            document.getElementById('cDueDisplay').innerText = cTotal - adv;
+        }
+
+        function saveClient() {
+            const name = document.getElementById("cName").value;
+            if(!name) return alert("নাম লিখুন");
+            const id = document.getElementById("editClientId").value || Date.now();
+            const data = {
+                id, name, mobile: document.getElementById("cMobile").value, dalil: document.getElementById("cDalil").value,
+                date: document.getElementById("cDate").value || new Date().toISOString().split('T')[0],
+                feeNokol: parseFloat(document.getElementById('feeNokol').value)||0,
+                feeTollash: parseFloat(document.getElementById('feeTollash').value)||0,
+                feeEndorse: parseFloat(document.getElementById('feeEndorse').value)||0,
+                feeComputer: parseFloat(document.getElementById('feeComputer').value)||0,
+                feeOfficeOther: parseFloat(document.getElementById('feeOfficeOther').value)||0,
+                custTotal: parseFloat(document.getElementById("cTotalDisplay").innerText),
+                officeTotal: parseFloat(document.getElementById("cOfficeDisplay").innerText),
+                advance: parseFloat(document.getElementById("cAdvance").value) || 0,
+                status: 'Pending', isOfficePaid: false
+            };
+            data.due = data.custTotal - data.advance;
+            db.ref("clients/" + id).update(data).then(() => { closeAll(); clearForm(); showToast("সেভ হয়েছে!", "success"); });
+        }
+
+        function editClient(id) {
+            const c = clients.find(x => x.id == id);
+            if(!c) return;
+            document.getElementById("modalTitle").innerText = "তথ্য সংশোধন";
+            document.getElementById("editClientId").value = c.id;
+            document.getElementById("cName").value = c.name;
+            document.getElementById("cMobile").value = c.mobile;
+            document.getElementById("cDalil").value = c.dalil;
+            document.getElementById("cDate").value = c.date;
+            document.getElementById("feeNokol").value = c.feeNokol;
+            document.getElementById("feeTollash").value = c.feeTollash;
+            document.getElementById("feeEndorse").value = c.feeEndorse;
+            document.getElementById("feeComputer").value = c.feeComputer;
+            document.getElementById("feeOfficeOther").value = c.feeOfficeOther;
+            document.getElementById("cAdvance").value = c.advance;
+            calcTotal();
+            openModal('entryModal');
+        }
+
+        function viewClientDetails(id) {
+            const c = clients.find(x => x.id == id);
+            if(!c) return;
+            const content = `<p><b>নাম:</b> ${c.name}</p><p><b>মোবাইল:</b> ${c.mobile || 'নেই'}</p><p><b>দলিল নং:</b> ${c.dalil || 'নেই'}</p><p><b>তারিখ:</b> ${c.date}</p><hr style="margin:10px 0; border:0; border-top:1px solid #334155;"><p>নকল ফি: ${c.feeNokol} ৳</p><p>তল্লাশ ফি: ${c.feeTollash} ৳</p><p>কম্পিউটার ফি (অফিস): ${c.feeComputer} ৳</p><p>ইন্ডোসমেন্ট (অফিস): ${c.feeEndorse} ৳</p><p>অন্যান্য (অফিস): ${c.feeOfficeOther} ৳</p><hr style="margin:10px 0; border:0; border-top:1px solid #334155;"><p><b>মোট বিল:</b> ${c.custTotal} ৳</p><p><b>জমা:</b> ${c.advance} ৳</p><p style="color:var(--danger)"><b>বকেয়া:</b> ${c.due} ৳</p><p style="color:var(--office)"><b>অফিস পাওনা:</b> ${c.officeTotal} ৳</p>`;
+            document.getElementById("detailsContent").innerHTML = content;
+            openModal('viewDetailsModal');
+        }
+
+        // --- UI Helpers ---
+        function toggleSidebar() { document.getElementById("sidebar").classList.toggle("active"); document.getElementById("overlay").style.display = document.getElementById("sidebar").classList.contains("active") ? "block" : "none"; }
+        function closeSidebar() { document.getElementById("sidebar").classList.remove("active"); document.getElementById("overlay").style.display = "none"; }
+
+        function renderAllLists() {
+            const q = document.getElementById("searchInput").value.toLowerCase();
+            renderToDiv(clients.slice(0, 50), "dashboardTaskList", q);
+            renderToDiv(clients.filter(c => c.status === 'Pending' || c.status === 'Processing'), "pendingList", q);
+            renderToDiv(clients.filter(c => c.status === 'Ready'), "readyList", q);
+            renderToDiv(clients.filter(c => c.due > 0), "dueList", q);
+            renderToDiv(clients, "allClientsList", q);
+        }
+
+        function renderToDiv(data, divId, query) {
+            const div = document.getElementById(divId);
+            if(!div) return; div.innerHTML = "";
+            const filtered = data.filter(c => c.name.toLowerCase().includes(query) || (c.dalil && c.dalil.includes(query)));
+            filtered.forEach(c => {
+                const statusClass = `tag-${c.status.toLowerCase()}`;
+                div.innerHTML += `
+                <div class="client-card">
+                    <span class="status-tag ${statusClass}">${c.status}</span>
+                    <div style="padding-right: 80px;"><b style="font-size: 16px; display: block;">${c.name}</b><div class="dalil-badge">দলিল নং: ${c.dalil || 'নেই'}</div></div>
+                    <div style="font-size:11px; color:var(--text-light); margin-top:8px;">তারিখ: ${c.date}</div>
+                    <div class="payment-info"><span>বিল: ${c.custTotal}</span><span>জমা: ${c.advance}</span><span style="color:var(--danger)">বাকি: ${c.due}</span></div>
+                    <div style="margin-top:12px; display:flex; gap:8px; flex-wrap: wrap;">
+                        <select onchange="updateStatus(${c.id}, this.value)" style="width:auto; padding:5px; font-size:12px; background:#0f172a; border-radius:5px; color:white; border:1px solid #444;"><option value="Pending" ${c.status==='Pending'?'selected':''}>Pending</option><option value="Processing" ${c.status==='Processing'?'selected':''}>Processing</option><option value="Ready" ${c.status==='Ready'?'selected':''}>Ready</option><option value="Delivered" ${c.status==='Delivered'?'selected':''}>Delivered</option></select>
+                        <button onclick="editClient(${c.id})" class="action-btn btn-edit"><i class="fas fa-edit"></i></button>
+                        <a href="tel:${c.mobile}" style="background:var(--primary); color:#fff; padding:6px 12px; border-radius:8px; font-size:12px; text-decoration:none;">Call</a>
+                        <button onclick="deleteClient(${c.id})" class="action-btn btn-delete"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>`;
+            });
+        }
+
+        function renderCustomerTable() {
+            const tbody = document.getElementById("customerTableBody");
+            tbody.innerHTML = "";
+            clients.forEach(c => {
+                tbody.innerHTML += `<tr><td>${c.name}</td><td>${c.dalil || '-'}</td><td>${c.mobile || '-'}</td><td>${c.custTotal}</td><td style="color:var(--danger)">${c.due}</td><td><button onclick="viewClientDetails(${c.id})" class="action-btn btn-view"><i class="fas fa-eye"></i></button><button onclick="editClient(${c.id})" class="action-btn btn-edit"><i class="fas fa-edit"></i></button></td></tr>`;
+            });
+        }
+
+        function renderExpenses() {
+            const div = document.getElementById("expenseList"); div.innerHTML = "";
+            expenses.forEach(e => {
+                div.innerHTML += `
+                <div class="client-card" style="padding:10px; border-left-color:var(--danger); display:flex; justify-content:space-between; align-items:center;">
+                    <div><span>${e.desc} (${e.date})</span><br><b style="color:var(--danger)">-${e.amount} ৳</b></div>
+                    <div>
+                        <button onclick="editExpense('${e.key}')" class="action-btn btn-edit"><i class="fas fa-edit"></i></button>
+                        <button onclick="deleteExpense('${e.key}')" class="action-btn btn-delete"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>`;
+            });
+        }
+
+        function addExpense() {
+            const desc = document.getElementById("exDesc").value; const amt = document.getElementById("exAmount").value;
+            if(!desc || !amt) return; const id = Date.now();
+            db.ref(`expenses/${id}`).set({ id, desc, amount: parseFloat(amt), date: new Date().toLocaleDateString("en-GB") });
+            document.getElementById("exDesc").value = ""; document.getElementById("exAmount").value = "";
+        }
+
+        function editExpense(key) {
+            const e = expenses.find(x => x.key === key);
+            if(!e) return;
+            document.getElementById("editExpenseId").value = e.key;
+            document.getElementById("editExDesc").value = e.desc;
+            document.getElementById("editExAmount").value = e.amount;
+            openModal('expenseEditModal');
+        }
+
+        function updateExpense() {
+            const key = document.getElementById("editExpenseId").value;
+            const data = { desc: document.getElementById("editExDesc").value, amount: parseFloat(document.getElementById("editExAmount").value) };
+            db.ref(`expenses/${key}`).update(data).then(() => { closeAll(); showToast("খরচ আপডেট হয়েছে", "success"); });
+        }
+
+        function deleteExpense(key) {
+            if(confirm("খরচটি মুছে ফেলবেন?")) {
+                db.ref(`expenses/${key}`).remove().then(() => {
+                    showToast("খরচ মুছে ফেলা হয়েছে", "success");
+                }).catch(err => alert("Error: " + err.message));
             }
-        });
+        }
 
-        // Calculate Expense
-        window.expenses.forEach(e => {
-            const eDate = new Date(e.date || e.id); // Fallback to ID timestamp
-            if(eDate >= start && eDate <= end) {
-                expense += (e.amount || 0);
-            }
-        });
+        function updateStats() {
+            const tExp = expenses.reduce((s, e) => s + (parseFloat(e.amount)||0), 0);
+            const cColl = clients.reduce((s, c) => s + (parseFloat(c.advance)||0), 0);
+            const oColl = officeTransactions.reduce((s, t) => s + (parseFloat(t.amount)||0), 0);
+            const oDue = clients.reduce((s, c) => (!c.isOfficePaid ? s + (parseFloat(c.officeTotal)||0) : s), 0);
+            document.getElementById('cashInHand').innerText = (cColl + oColl - tExp) + " ৳";
+            document.getElementById('totalCustomerDue').innerText = clients.reduce((s, c) => s + c.due, 0) + " ৳";
+            document.getElementById('totalOfficeDue').innerText = oDue + " ৳";
+            document.getElementById('officeViewDue').innerText = oDue + " ৳";
+            document.getElementById('totalPending').innerText = clients.filter(c => c.status === 'Pending' || c.status === 'Processing').length;
+        }
 
-        document.getElementById('repIncome').innerText = income;
-        document.getElementById('repExpense').innerText = expense;
-        document.getElementById('repProfit').innerText = income - expense;
-        document.getElementById('reportResult').style.display = 'block';
-    }
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('#sidebar a').forEach(a => a.classList.remove('active'));
+            const nav = document.getElementById('nav-' + id); if(nav) nav.classList.add('active');
+            closeSidebar(); closeProfile();
+        }
 
-    // --- Export Logic ---
-    window.exportData = function() {
-        let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; // BOM for Bengali support
-        csvContent += "Name,Mobile,Dalil,Total Bill,Paid,Due,Status,Date\n";
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-' + tab).style.display = 'block'; event.currentTarget.classList.add('active');
+        }
 
-        window.clients.forEach(c => {
-            const row = [
-                `"${c.name}"`, 
-                `"${c.mobile}"`, 
-                `"${c.dalil}"`, 
-                c.custTotal, 
-                c.advance, 
-                c.due, 
-                c.status, 
-                c.date
-            ].join(",");
-            csvContent += row + "\n";
-        });
+        function applySettings(s) {
+            document.documentElement.style.setProperty('--primary', s.themeColor || '#4f46e5');
+            document.getElementById("headerOfficeName").innerText = s.officeName;
+            document.getElementById("headerUserName").innerText = s.userName;
+            document.getElementById("sideUserName").innerText = s.userName;
+            document.getElementById("sideOfficeName").innerText = s.officeName;
+            document.getElementById("pName").innerText = s.userName;
+            document.getElementById("profName").innerText = s.userName;
+            document.getElementById("profOffice").innerText = s.officeName;
+            document.getElementById("setUserName").value = s.userName;
+            document.getElementById("setOfficeName").value = s.officeName;
+            document.getElementById("setThemeColor").value = s.themeColor;
+        }
 
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "nokol_nobish_data.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
+        function saveSettings() {
+            const data = { userName: document.getElementById("setUserName").value, officeName: document.getElementById("setOfficeName").value, themeColor: document.getElementById("setThemeColor").value };
+            db.ref("appSettings").set(data).then(() => { showToast("সেটিংস আপডেট হয়েছে!", "success"); closeAll(); });
+        }
 
-    // --- Main Render Loop ---
-    window.renderAll = function() {
-        renderClients();
-        
-        let totalExpense = window.expenses.reduce((s, e) => s + e.amount, 0);
-        let custCollected = window.clients.reduce((s, c) => s + c.advance, 0);
-        let officeCollected = window.officeTransactions.reduce((s, t) => s + t.amount, 0);
-        
-        let cash = (custCollected + officeCollected) - totalExpense;
-        let custDue = window.clients.reduce((s, c) => s + c.due, 0);
-        let officeDue = getOfficeDue();
-        let pending = window.clients.filter(c => c.status !== 'Delivered').length;
-
-        document.getElementById('cashInHand').innerText = cash + ' ৳';
-        document.getElementById('totalCustomerDue').innerText = custDue + ' ৳';
-        document.getElementById('totalOfficeDue').innerText = officeDue + ' ৳';
-        document.getElementById('officeViewDue').innerText = officeDue + ' ৳';
-        document.getElementById('totalPending').innerText = pending;
-        
-        const exList = document.getElementById('expenseList'); exList.innerHTML = '';
-        window.expenses.forEach(ex => exList.innerHTML += `<div style="padding:5px; border-bottom:1px solid #eee;">${ex.desc} <span style="float:right; color:red;">-${ex.amount}</span></div>`);
-        document.getElementById('totalExpenseDisplay').innerText = totalExpense;
-    }
-</script>
+        function toggleProfile() { const menu = document.getElementById("profileMenu"); menu.style.display = menu.style.display === "block" ? "none" : "block"; }
+        function closeProfile() { document.getElementById("profileMenu").style.display = "none"; }
+        function openModal(id) { document.getElementById(id).style.display = "block"; document.getElementById("overlay").style.display = "block"; }
+        function closeAll() { document.querySelectorAll('.modal').forEach(m => m.style.display = "none"); document.getElementById("overlay").style.display = "none"; closeProfile(); closeSidebar(); }
+        function showToast(msg, type) {
+            const container = document.getElementById("toast-container");
+            const toast = document.createElement("div"); toast.className = "toast";
+            toast.style.borderLeftColor = type === 'success' ? 'var(--success)' : 'var(--danger)';
+            toast.innerHTML = `<span>${msg}</span>`; container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+        function clearForm() {
+            ['cName','cMobile','cDalil','feeNokol','feeTollash','feeEndorse','feeComputer','feeOfficeOther','cAdvance','editClientId'].forEach(i => document.getElementById(i).value = "");
+            ['feeNokol','feeTollash','feeEndorse','feeComputer','feeOfficeOther','cAdvance'].forEach(i => document.getElementById(i).value = "0");
+            document.getElementById("modalTitle").innerText = "নতুন কাজ এন্ট্রি";
+            calcTotal();
+        }
+        function updateStatus(id, st) { db.ref("clients/" + id).update({ status: st }); }
+        function deleteClient(id) { if(confirm("মুছবেন?")) db.ref("clients/" + id).remove(); }
+        function openOfficePayModal() {
+            const due = clients.reduce((s, c) => (!c.isOfficePaid ? s + (parseFloat(c.officeTotal)||0) : s), 0);
+            document.getElementById('modalOfficeDue').innerText = due;
+            document.getElementById('officeReceivedAmount').value = due;
+            openModal('officePayModal');
+        }
+        function submitOfficePayment() {
+            const amt = parseFloat(document.getElementById('officeReceivedAmount').value);
+            if(amt <= 0) return;
+            db.ref('officeTransactions').push({ date: new Date().toISOString(), amount: amt });
+            clients.forEach(c => { if(!c.isOfficePaid) db.ref(`clients/${c.id}`).update({ isOfficePaid: true }); });
+            closeAll();
+        }
+        function downloadBackup() {
+            const backupData = { clients, expenses, officeTransactions, timestamp: new Date().toISOString() };
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData));
+            const downloadAnchorNode = document.createElement('a'); downloadAnchorNode.setAttribute("href", dataStr); downloadAnchorNode.setAttribute("download", "nokol_nobish_backup.json");
+            document.body.appendChild(downloadAnchorNode); downloadAnchorNode.click(); downloadAnchorNode.remove();
+        }
+        function factoryReset() { if(confirm("সতর্কতা: সব ডাটা মুছে ফেলুন?")) { db.ref('/').remove().then(() => location.reload()); } }
+        function generateDateReport() {
+            const start = document.getElementById('reportStartDate').value;
+            const end = document.getElementById('reportEndDate').value;
+            if(!start || !end) return showToast("তারিখ সিলেক্ট করুন", "danger");
+            let totalInc = 0; let totalExp = 0;
+            const listDiv = document.getElementById('reportDetailsList'); listDiv.innerHTML = "";
+            clients.forEach(c => { if(c.date >= start && c.date <= end) { totalInc += c.advance; listDiv.innerHTML += `<div class="client-card" style="padding:10px; font-size:12px;">${c.date} | ${c.name} | জমা: ${c.advance} ৳</div>`; } });
+            expenses.forEach(e => { const parts = e.date.split('/'); const eDate = `${parts[2]}-${parts[1]}-${parts[0]}`; if(eDate >= start && eDate <= end) { totalExp += e.amount; listDiv.innerHTML += `<div class="client-card" style="padding:10px; font-size:12px; border-left-color:var(--danger);">${e.date} | ${e.desc} | খরচ: ${e.amount} ৳</div>`; } });
+            document.getElementById('repTotalIncome').innerText = totalInc + " ৳"; document.getElementById('repTotalExpense').innerText = totalExp + " ৳";
+            document.getElementById('reportResult').style.display = "block";
+        }
+    </script>
 </body>
 </html>
