@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Nokol Nobish Pro v14.0</title>
+    <title>Smart Nokol Nobish Pro v15.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -109,11 +109,12 @@
         th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #334155; font-size: 13px; }
         th { background: #0f172a; color: #94a3b8; }
 
-        .action-btn { background: none; border: none; cursor: pointer; padding: 5px; font-size: 16px; }
-        .btn-view { color: var(--accent); }
-        .btn-edit { color: var(--warning); }
-        .btn-delete { color: var(--danger); }
-        .btn-sms { color: #38bdf8; }
+        .action-btn { background: none; border: none; cursor: pointer; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; color: #fff; }
+        .btn-view { color: var(--accent); border: 1px solid var(--accent); }
+        .btn-edit { background: var(--warning); color: #000; }
+        .btn-delete { background: var(--danger); }
+        .btn-sms { background: #38bdf8; }
+        .btn-call { background: var(--primary); text-decoration: none; display: inline-block; }
     </style>
 </head>
 <body>
@@ -125,7 +126,7 @@
     <div id="loginScreen">
         <div class="login-card">
             <h2>নকল নবীশ <span>PRO</span></h2>
-            <p style="color: #94a3b8; font-size: 12px; margin-bottom: 20px;">v14.0 Security Login</p>
+            <p style="color: #94a3b8; font-size: 12px; margin-bottom: 20px;">v15.0 Security Login</p>
             <input type="email" id="uEmail" class="login-input" placeholder="ইমেইল">
             <input type="password" id="uPass" class="login-input" placeholder="পাসওয়ার্ড">
             <button class="login-btn" onclick="login()">➜ লগইন করুন</button>
@@ -155,7 +156,7 @@
             <div class="sidebar-footer">
                 <p>অনলাইন স্ট্যাটাস: <span id="sideStatus" style="color:var(--success)">● অনলাইন</span></p>
                 <span class="dev-credit">ডেভেলপার: আরাফাত সিকদার</span>
-                <p>v14.0 | Smart Nokol Nobish</p>
+                <p>v15.0 | Smart Nokol Nobish</p>
             </div>
         </div>
 
@@ -220,35 +221,14 @@
             <div id="due" class="section"><h3 style="margin-bottom:20px; color:var(--danger);">💰 কাস্টমার বকেয়া তালিকা</h3><div id="dueList"></div></div>
             <div id="clients" class="section"><input type="text" id="searchInput" placeholder="🔍 খুঁজুন..." onkeyup="renderAllLists()" style="margin-bottom:20px;"><div id="allClientsList"></div></div>
             <div id="office" class="section"><div class="card" style="max-width: 500px; margin: auto; padding: 40px; cursor: default;"><span>মোট অফিস বকেয়া</span><b id="officeViewDue" style="font-size: 45px; color: var(--office); margin: 20px 0;">0 ৳</b><button class="btn-save" style="background: var(--office);" onclick="openOfficePayModal()">সাপ্তাহিক বিল গ্রহণ করুন</button></div></div>
-
-            <!-- খরচের খাতা -->
-            <div id="expenses" class="section">
-                <div class="table-box" style="padding: 20px; max-width: 500px; margin: auto; margin-bottom: 30px;">
-                    <div class="form-group"><input type="text" id="exDesc" placeholder="বিবরণ"></div>
-                    <div class="form-group"><input type="number" id="exAmount" placeholder="টাকা"></div>
-                    <button class="btn-save" onclick="addExpense()">খরচ যোগ করুন</button>
-                </div>
-                <div id="expenseList"></div>
-            </div>
-
-            <!-- রিপোর্ট ও প্রোফাইল -->
-            <div id="reports" class="section">
-                <h3 style="margin-bottom: 20px; color: var(--accent);">📊 রিপোর্ট ও এনালাইসিস</h3>
-                <div class="client-card" style="border-left-color: var(--accent);">
-                    <div class="bill-grid"><div class="form-group"><label>শুরুর তারিখ</label><input type="date" id="reportStartDate"></div><div class="form-group"><label>শেষ তারিখ</label><input type="date" id="reportEndDate"></div></div>
-                    <button class="btn-save" onclick="generateDateReport()">রিপোর্ট দেখুন</button>
-                </div>
-                <div id="reportResult" style="display:none; margin-top:20px;">
-                    <div class="stats-grid"><div class="card" style="border-bottom-color: var(--success);"><span>মোট জমা</span><b id="repTotalIncome">0 ৳</b></div><div class="card" style="border-bottom-color: var(--danger);"><span>মোট খরচ</span><b id="repTotalExpense">0 ৳</b></div></div>
-                    <div id="reportDetailsList"></div>
-                </div>
-            </div>
+            <div id="expenses" class="section"><div class="table-box" style="padding: 20px; max-width: 500px; margin: auto; margin-bottom: 30px;"><div class="form-group"><input type="text" id="exDesc" placeholder="বিবরণ"></div><div class="form-group"><input type="number" id="exAmount" placeholder="টাকা"></div><button class="btn-save" onclick="addExpense()">খরচ যোগ করুন</button></div><div id="expenseList"></div></div>
+            <div id="reports" class="section"><h3 style="margin-bottom: 20px; color: var(--accent);">📊 রিপোর্ট ও এনালাইসিস</h3><div class="client-card" style="border-left-color: var(--accent);"><div class="bill-grid"><div class="form-group"><label>শুরুর তারিখ</label><input type="date" id="reportStartDate"></div><div class="form-group"><label>শেষ তারিখ</label><input type="date" id="reportEndDate"></div></div><button class="btn-save" onclick="generateDateReport()">রিপোর্ট দেখুন</button></div><div id="reportResult" style="display:none; margin-top:20px;"><div class="stats-grid"><div class="card" style="border-bottom-color: var(--success);"><span>মোট জমা</span><b id="repTotalIncome">0 ৳</b></div><div class="card" style="border-bottom-color: var(--danger);"><span>মোট খরচ</span><b id="repTotalExpense">0 ৳</b></div></div><div id="reportDetailsList"></div></div></div>
             <div id="profile" class="section"><div class="card" style="max-width: 450px; margin: auto;"><i class="fas fa-user-shield" style="font-size: 60px; color: var(--primary);"></i><h2 id="profName" style="margin-top: 15px;">নাম</h2><p id="profOffice" style="color: var(--text-light);">অফিস</p><button class="btn-save" style="background:var(--warning); color:#000; margin-top:20px;" onclick="resetPassword()">পাসওয়ার্ড রিসেট লিংক পাঠান</button></div></div>
         </div>
 
         <div class="fab" onclick="openModal('entryModal')"><i class="fas fa-plus"></i></div>
 
-        <!-- এন্ট্রি মডাল -->
+        <!-- মডালসমূহ -->
         <div class="modal" id="entryModal">
             <h3 id="modalTitle" style="color: var(--accent); margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 10px;">নতুন কাজ এন্ট্রি</h3>
             <input type="hidden" id="editClientId">
@@ -270,14 +250,12 @@
             <button onclick="closeAll()" style="background:none; color:var(--text-light); border:none; width:100%; margin-top:10px; cursor:pointer;">বাতিল</button>
         </div>
 
-        <!-- বিস্তারিত ভিউ মডাল -->
         <div class="modal" id="viewDetailsModal">
             <h3 style="color: var(--accent); margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 10px;">কাস্টমার বিস্তারিত</h3>
             <div id="detailsContent" style="font-size: 14px; line-height: 1.8;"></div>
             <button onclick="closeAll()" style="background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; margin-top: 20px; font-weight: bold; cursor: pointer;">বন্ধ করুন</button>
         </div>
 
-        <!-- খরচ এডিট মডাল -->
         <div class="modal" id="expenseEditModal">
             <h3 style="color: var(--danger); margin-bottom: 20px;">খরচ সংশোধন</h3>
             <input type="hidden" id="editExpenseId">
@@ -287,7 +265,6 @@
             <button onclick="closeAll()" style="background:none; color:var(--text-light); border:none; width:100%; margin-top:10px; cursor:pointer;">বন্ধ করুন</button>
         </div>
 
-        <!-- সেটিংস মডাল -->
         <div class="modal" id="settingsModal">
             <h3 style="color: var(--accent); margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 10px;">⚙️ অ্যাপ সেটিংস</h3>
             <div class="tab-menu"><button class="tab-btn active" onclick="switchTab('general')">General</button><button class="tab-btn" onclick="switchTab('security')">Security</button><button class="tab-btn" onclick="switchTab('database')" style="color:var(--danger)">Database</button></div>
@@ -297,7 +274,6 @@
             <button onclick="closeAll()" style="background:none; color:var(--text-light); border:none; width:100%; margin-top:15px; cursor:pointer;">বন্ধ করুন</button>
         </div>
 
-        <!-- অফিস পেমেন্ট মডাল -->
         <div class="modal" id="officePayModal"><h3 style="color: var(--office);">অফিস বিল গ্রহণ</h3><p>মোট পাওনা: <span id="modalOfficeDue" style="font-weight:bold;">0</span> ৳</p><div class="form-group"><label>টাকার পরিমাণ</label><input type="number" id="officeReceivedAmount"></div><button class="btn-save" style="background: var(--office);" onclick="submitOfficePayment()">সেভ করুন</button><button onclick="closeAll()" style="background:none; color:var(--text-light); border:none; width:100%; margin-top:10px; cursor:pointer;">বন্ধ করুন</button></div>
     </div>
 
@@ -434,8 +410,9 @@
         function sendSMS(id) {
             const c = clients.find(x => x.id == id);
             if (!c || !c.mobile) return showToast("মোবাইল নম্বর নেই!", "danger");
-            const msg = `আপনার দলিল (নং ${c.dalil || 'নেই'}) রেডি হয়েছে। বকেয়া ${c.due} ৳ নিয়ে অফিসে যোগাযোগ করুন। - মোঃ মঈনুল হাসান`;
-            window.location.href = `sms:${c.mobile}?body=${encodeURIComponent(msg)}`;
+            const msg = `Apnar dolil (No: ${c.dalil || 'N/A'}) ready hoyeche. Bokeya ${c.due} Tk niye office e jogajog korun. - Md. Moinul Hasan`;
+            // Using standard SMS URI
+            window.open(`sms:${c.mobile}?body=${encodeURIComponent(msg)}`, '_self');
         }
 
         // --- UI Helpers ---
@@ -465,9 +442,9 @@
                     <div class="payment-info"><span>বিল: ${c.custTotal}</span><span>জমা: ${c.advance}</span><span style="color:var(--danger)">বাকি: ${c.due}</span></div>
                     <div style="margin-top:12px; display:flex; gap:8px; flex-wrap: wrap;">
                         <select onchange="updateStatus(${c.id}, this.value)" style="width:auto; padding:5px; font-size:12px; background:#0f172a; border-radius:5px; color:white; border:1px solid #444;"><option value="Pending" ${c.status==='Pending'?'selected':''}>Pending</option><option value="Processing" ${c.status==='Processing'?'selected':''}>Processing</option><option value="Ready" ${c.status==='Ready'?'selected':''}>Ready</option><option value="Delivered" ${c.status==='Delivered'?'selected':''}>Delivered</option></select>
-                        <button onclick="editClient(${c.id})" class="action-btn btn-edit"><i class="fas fa-edit"></i></button>
-                        <button onclick="sendSMS(${c.id})" class="action-btn btn-sms"><i class="fas fa-sms"></i></button>
-                        <a href="tel:${c.mobile}" style="background:var(--primary); color:#fff; padding:6px 12px; border-radius:8px; font-size:12px; text-decoration:none;">Call</a>
+                        <button onclick="editClient(${c.id})" class="action-btn btn-edit">Edit</button>
+                        <button onclick="sendSMS(${c.id})" class="action-btn btn-sms">SMS</button>
+                        <a href="tel:${c.mobile}" class="action-btn btn-call">Call</a>
                         <button onclick="deleteClient(${c.id})" class="action-btn btn-delete"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>`;
@@ -478,21 +455,14 @@
             const tbody = document.getElementById("customerTableBody");
             tbody.innerHTML = "";
             clients.forEach(c => {
-                tbody.innerHTML += `<tr><td>${c.name}</td><td>${c.dalil || '-'}</td><td>${c.mobile || '-'}</td><td>${c.custTotal}</td><td style="color:var(--danger)">${c.due}</td><td><button onclick="viewClientDetails(${c.id})" class="action-btn btn-view"><i class="fas fa-eye"></i></button><button onclick="editClient(${c.id})" class="action-btn btn-edit"><i class="fas fa-edit"></i></button><button onclick="sendSMS(${c.id})" class="action-btn btn-sms"><i class="fas fa-sms"></i></button></td></tr>`;
+                tbody.innerHTML += `<tr><td>${c.name}</td><td>${c.dalil || '-'}</td><td>${c.mobile || '-'}</td><td>${c.custTotal}</td><td style="color:var(--danger)">${c.due}</td><td><button onclick="viewClientDetails(${c.id})" class="action-btn btn-view" style="color:var(--accent); border:none;">View</button><button onclick="editClient(${c.id})" class="action-btn btn-edit" style="padding:4px 8px;">Edit</button><button onclick="sendSMS(${c.id})" class="action-btn btn-sms" style="padding:4px 8px;">SMS</button></td></tr>`;
             });
         }
 
         function renderExpenses() {
             const div = document.getElementById("expenseList"); div.innerHTML = "";
             expenses.forEach(e => {
-                div.innerHTML += `
-                <div class="client-card" style="padding:10px; border-left-color:var(--danger); display:flex; justify-content:space-between; align-items:center;">
-                    <div><span>${e.desc} (${e.date})</span><br><b style="color:var(--danger)">-${e.amount} ৳</b></div>
-                    <div>
-                        <button onclick="editExpense('${e.key}')" class="action-btn btn-edit"><i class="fas fa-edit"></i></button>
-                        <button onclick="deleteExpense('${e.key}')" class="action-btn btn-delete"><i class="fas fa-trash"></i></button>
-                    </div>
-                </div>`;
+                div.innerHTML += `<div class="client-card" style="padding:10px; border-left-color:var(--danger); display:flex; justify-content:space-between; align-items:center;"><div><span>${e.desc} (${e.date})</span><br><b style="color:var(--danger)">-${e.amount} ৳</b></div><div><button onclick="editExpense('${e.key}')" class="action-btn btn-edit" style="padding:4px 8px;">Edit</button><button onclick="deleteExpense('${e.key}')" class="action-btn btn-delete" style="padding:4px 8px;"><i class="fas fa-trash"></i></button></div></div>`;
             });
         }
 
@@ -520,9 +490,7 @@
 
         function deleteExpense(key) {
             if(confirm("খরচটি মুছে ফেলবেন?")) {
-                db.ref(`expenses/${key}`).remove().then(() => {
-                    showToast("খরচ মুছে ফেলা হয়েছে", "success");
-                });
+                db.ref(`expenses/${key}`).remove().then(() => { showToast("খরচ মুছে ফেলা হয়েছে", "success"); });
             }
         }
 
